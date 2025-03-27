@@ -1,21 +1,35 @@
-name: Test Project
+name: MERN CI/CD
 
 on:
   push:
-    branches:
-      - main
-    
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
-  test:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    container:
-      image: node:20
+
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: 📦 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🔧 Set up Node.js 18
+        uses: actions/setup-node@v3
         with:
-          node-version: 20
-      - run: |
-          npm ci
-          npm dev
-          npm run build
+          node-version: 18
+
+      # 🧠 Backend setup + test
+      - name: Install backend dependencies
+        run: npm install
+
+      - name: Run backend tests
+        run: npm test
+
+      # 💻 Frontend setup + build
+      - name: Install frontend dependencies
+        run: npm run build
+
+      # # 🚀 Deploy Backend to Railway
+      # - name: Trigger Railway Deploy
+      #   run: curl -X POST ${{ secrets.RAILWAY_DEPLOY_HOOK }}

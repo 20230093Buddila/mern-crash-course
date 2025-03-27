@@ -32,13 +32,8 @@ jobs:
         working-directory: ./backend
         run: npm test
 
-      # Install frontend dependencies and build
-      - name: 💻 Install frontend dependencies
-        working-directory: ./frontend
-        run: npm install
-
-      - name: 🛠️ Build frontend
-        working-directory: ./frontend
+      # 💻 Frontend setup + build
+      - name: Install frontend dependencies
         run: npm run build
 
       # Optional: Deploy backend to Railway
